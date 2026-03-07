@@ -10,7 +10,7 @@ resource "aws_s3_bucket" "artifacts" {
 }
 
 # Block all public access to the S3 bucket
-resource "aws_s3_bucket.artifacts.id" "artifacts" {
+resource "aws_s3_bucket_public_access_block" "artifacts" {
   bucket = aws_s3_bucket.artifacts.id
 
   block_public_acls       = true
