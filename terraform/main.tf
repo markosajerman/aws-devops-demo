@@ -28,22 +28,23 @@ resource "aws_s3_bucket_versioning" "artifacts" {
   }
 }
 
-# ECR repository for storing Docker images
-resource "aws_ecr_repository" "app" {
-  name = var.ecr_repository_name
-  # Allows overwriting existing image tags - dev
-  image_tag_mutability = "MUTABLE"
+# # NOTE: ECR is not available in LocalStack free tier
+# # ECR repository for storing Docker images
+# resource "aws_ecr_repository" "app" {
+#   name = var.ecr_repository_name
+#   # Allows overwriting existing image tags - dev
+#   image_tag_mutability = "MUTABLE"
 
-  # Enable image scanning on push - detect vulnerabilities
-  image_scanning_configuration {
-    scan_on_push = true
-  }
+#   # Enable image scanning on push - detect vulnerabilities
+#   image_scanning_configuration {
+#     scan_on_push = true
+#   }
 
-  tags = {
-    Name        = var.ecr_repository_name
-    Environment = var.environment
-    Project     = var.project_name
-  }
-}
+#   tags = {
+#     Name        = var.ecr_repository_name
+#     Environment = var.environment
+#     Project     = var.project_name
+#   }
+# }
 
 

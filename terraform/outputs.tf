@@ -10,8 +10,9 @@ output "s3_bucket_arn" {
   value       = aws_s3_bucket.artifacts.arn
 }
 
-# Output ECR repository URL - used by Docker to push/pull images
-output "ecr_repository_url" {
-  description = "URL of the ECR repository for Docker image push/pull"
-  value       = aws_ecr_repository.app.repository_url
-}
+# # Note: CloudStack ECR is not in free tier
+# # Output ECR repository URL - used by Docker to push/pull images
+# output "ecr_repository_url" {
+#   description = "URL of the ECR repository for Docker image push/pull"
+#   value       = aws_ecr_repository.app.repository_url
+# }
