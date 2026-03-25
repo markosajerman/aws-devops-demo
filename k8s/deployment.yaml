@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: devops-demo-app
+  namespace: devops-demo
+  labels:
+    app: devops-demo-app
+spec:
+  # Number of pod replicas to run
+  replicas: 2
+  # Selector tells the Deployment which Pods to manage
+  selector:
+    matchLabels:
+      app: devops-demo-app
+  template:
+    metadata:
+      labels:
+        app: devops-demo-app
+    spec:
+      containers:
+      - name: devops-demo-app
+        # Docker Hub image - will be updated by CI/CD pipeline
+        image: markosajerman/aws-devops-demo:latest
+        ports:
+          - containerPort: 5000
+        # Environment port injected into the container
+        env:
+          - name: APP_VERSION
+            value: "1.0.0"
+        # Liveness probe - k8s restarts pod if this fails
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 5000
+          initialDelaySeconds: 10
+          periodSeconds: 10
+        # Readiness probe - k8s sends traffic only when this passes
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 5000
+          initialDelaySeconds: 5
+          periodSeconds: 5
+        # Resource limits - prevents single pod from consuming all node resources
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "100m"
+          limits:
+            memory: "128Mi"
+            cpu: "200m"
+       
