@@ -1,0 +1,32 @@
+# ArgoCD app - defines what to deploy and where to sync from
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata: 
+  name: devops-demo
+  namespace: argocd
+spec:
+  project: default
+  source:
+    # Github repo
+    repoURL: https://github.com/markosajerman/aws-devops-demo
+    # Branch
+    targetRevision: HEAD
+    # Path to helm chart(repo)
+    path: k8s/helm/devops-demo
+    helm:
+      # Which value file
+      valueFiles:
+        - values.yaml
+  destination:
+      # Deploy to the same cluster ArgoCD is running in
+    server: https://kubernetes.default.svc
+    namespace: devops-demo
+  syncPolicy:
+    automated:
+      # Automatically sync when Git changes are detected
+      prune: true
+      # Remove resources that are no longer in Git
+      selfHeal: true
+    syncOptions:
+      # Create namespace if it doesn't exist
+      - CreateNamespace=true
