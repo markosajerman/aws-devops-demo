@@ -1,0 +1,8 @@
+# Namespace template - uses values from values.yaml
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: {{ .Values.namespace }}
+  labels: 
+    app: {{ .Values.namespace }}
+    environment: dev

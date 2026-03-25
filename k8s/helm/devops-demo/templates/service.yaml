@@ -1,0 +1,18 @@
+# Service template - exposes the application within the cluster
+apiVersion: v1
+kind: Service
+metadata: 
+  name: {{ .Release.Name }}-app
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: {{ .Release.Name }}-app
+spec:
+  selector:
+    app: {{ .Release.Name }}-app
+  ports:
+    - name: http
+      port: {{ .Values.service.port }}
+      targetPort: {{ .Values.service.targetPort }}
+      protocol: TCP
+  type: {{ .Values.service.type }}
+

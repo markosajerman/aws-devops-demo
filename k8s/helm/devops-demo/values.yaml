@@ -1,0 +1,37 @@
+# Default values 
+# Can be overridden at install time with --set or -f flags
+
+# Number of pod replicas
+replicaCount: 2
+
+image:
+  # Docker Hub repository
+  repository: markosajerman/aws-devops-demo
+  # Image pull policy - Always pulls latest, use IfNotPresent in prod for performance
+  pullPolicy: Always
+  # Image tag - overriden by CI/CD pipeline on each deploy
+  tag: "latest"
+
+  # Service configuration
+service:
+  type: ClusterIP
+  # External port on which service is accessible within cluster
+  port: 80
+  # Internal container port where app listens
+  targetPort: 5000
+
+  # Resource limits and requests
+resources: 
+  requests:
+    memory: "64Mi"
+    cpu: "100m"
+  limits:
+    memory: "128Mi"
+    cpu: "200m"
+
+# App env variables
+env:
+  APP_VERSION: "1.0.0"
+
+# Namespace where all resources will be deployed
+namespace: devops-demo
